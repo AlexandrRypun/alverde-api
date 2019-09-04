@@ -1,6 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
   const Product = sequelize.define('Product', {
-    price: DataTypes.INTEGER,
+    price: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isInt: true
+      }
+    },
     oldPrice: DataTypes.INTEGER
   }, {
     tableName: 'products',

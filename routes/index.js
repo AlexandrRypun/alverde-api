@@ -17,6 +17,9 @@ router.route('/products')
 router.route('/products/:id')
     .get(controllers.product.item.bind(controllers.product));
 
+router.route('/products/validate')
+    .post(controllers.product.validate.bind(controllers.product));
+
 
 router.route('/users')
     .get(controllers.user.list.bind(controllers.user))

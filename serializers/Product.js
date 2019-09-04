@@ -1,6 +1,6 @@
-const JSONAPISerializer = require('jsonapi-serializer').Serializer;
+const {Serializer, Deserializer} = require('jsonapi-serializer');
 
-module.exports = new JSONAPISerializer('products', {
+const serializer = new Serializer('products', {
     attributes: ['price', 'oldPrice', 'category', 'translations', 'images'],
     category: {
         ref: 'id',
@@ -35,3 +35,12 @@ module.exports = new JSONAPISerializer('products', {
         return type;
     }
 });
+const deserializer = new Deserializer({
+    keyForAttribute: attribute => attribute
+});
+
+module.exports = {
+    serialize: serializer.serialize.bind(serializer),
+    deserialize: deserializer.deserialize.bind(deserializer)
+};
+
