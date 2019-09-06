@@ -20,6 +20,12 @@ router.route('/products/:id')
 router.route('/products/validate')
     .post(controllers.product.validate.bind(controllers.product));
 
+router.route('/orders')
+    .get(controllers.order.list.bind(controllers.order))
+    .post(controllers.order.create.bind(controllers.order));
+
+router.route('/orders/validate')
+    .post(controllers.order.validate.bind(controllers.order));
 
 router.route('/users')
     .get(controllers.user.list.bind(controllers.user))

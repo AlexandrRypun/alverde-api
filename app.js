@@ -8,7 +8,7 @@ var router = require('./routes');
 
 var app = express();
 
-app.use(express.json());
+app.use(express.json({ type: 'application/vnd.api+json' }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors());

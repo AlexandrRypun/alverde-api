@@ -1,7 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const ProductTranslation = sequelize.define('ProductTranslation', {
-    // productId: DataTypes.INTEGER,
     lang: DataTypes.STRING,
     name: DataTypes.STRING,
     description: DataTypes.TEXT,
