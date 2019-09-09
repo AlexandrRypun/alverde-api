@@ -109,14 +109,19 @@ class BasicController {
 
     async getValidationErrors(data) {
         const validationErrors = [];
+        const validatedAttributes = { [this.model.name]: data };
         const recordsToValidate = [this.model.build(data)];
         Object.keys(data).filter(property => this.model.associations[property] !== undefined).forEach(relation => {
             if (Array.isArray(data[relation])) {
                 data[relation].forEach(recordData => {
-                    recordsToValidate.push(this.model.associations[relation].target.build(recordData));
+                    if (recordData) {
+                        recordsToValidate.push(this.model.associations[relation].target.build(recordData));
+                        validatedAttributes[this.model.associations[relation].target.name] = recordData;
+                    }
                 });
             } else if (data[relation]) {
                 recordsToValidate.push(this.model.associations[relation].target.build(data[relation]));
+                validatedAttributes[this.model.associations[relation].target.name] = data[relation];
             }
         });
 
@@ -124,14 +129,16 @@ class BasicController {
             return record.validate().catch(error => {
                 if (error instanceof ValidationError) {
                     error.errors.forEach(e => {
-                        e.message = `${this.model.name}.${e.path}.${e.validatorKey}`;
-                        e.model = this.model.name;
-                        validationErrors.push({
-                            detail: `${this.model.name}.${e.path}.${e.validatorKey}`,
-                            source: {
-                                pointer: `data/attributes/${e.path}`
-                            }
-                        });
+                        if (validatedAttributes[record.constructor.name][e.path] !== undefined) {
+                            e.message = `${this.model.name}.${e.path}.${e.validatorKey}`;
+                            e.model = this.model.name;
+                            validationErrors.push({
+                                detail: `${this.model.name}.${e.path}.${e.validatorKey}`,
+                                source: {
+                                    pointer: `data/attributes/${e.path}`
+                                }
+                            });
+                        }
                     });
                 }
             })
