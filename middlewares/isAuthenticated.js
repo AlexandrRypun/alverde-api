@@ -6,7 +6,7 @@ module.exports = async (req, res, next) => {
     //     if (req.headers.authorization !== undefined) {
     //         const token = req.headers.authorization.replace('jwt ', '');
     //
-    //         const payload = jwt.verify(token, 'alverde', {algorithm: "HS256"}); //secret
+    //         const payload = jwt.verify(token, 'bemiracle', {algorithm: "HS256"}); //secret
     //         if (payload && payload.userId) {
     //             const user = await User.findByPk(payload.userId);
     //             if (user) {
