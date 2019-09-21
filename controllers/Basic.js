@@ -14,11 +14,17 @@ class BasicController {
     async list(req, res) {
         try {
             const params = this.generateParams(req);
+            const promises = [this.model.findAll(params)];
+            if (params.limit) {
+                delete params.limit;
+                delete params.include;
+                promises.push(this.model.count(params));
+            }
 
-            let list = await this.model.findAll(params);
+            let [list, count] = await Promise.all(promises);
 
             if (this.serializer) {
-                list = this.serializer.serialize(list);
+                list = this.serializer.serialize(list, count);
             }
 
             res.status(200).json(list);

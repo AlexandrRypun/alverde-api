@@ -23,13 +23,19 @@ const serializer = new Serializer('orders', {
         }
 
         return type;
-    }
+    },
+    meta: {}
 });
 const deserializer = new Deserializer({
     keyForAttribute: attribute => attribute
 });
 
 module.exports = {
-    serialize: serializer.serialize.bind(serializer),
+    serialize: function(records, count) {
+        if (count !== undefined) {
+            serializer.opts.meta.total = count;
+        }
+        return serializer.serialize.call(serializer, records);
+    },
     deserialize: deserializer.deserialize.bind(deserializer)
 };
