@@ -1,16 +1,19 @@
 {
-  "development": {
-    "username": "",
-    "password": "",
-    "database": "",
-    "host": "",
-    "dialect": "postgres"
+  "postgresql": {
+      "development": {
+        "username": "",
+        "password": "",
+        "database": "",
+        "host": "",
+        "dialect": "postgres"
+      },
+      "production": {
+        "username": "",
+        "password": "",
+        "database": "",
+        "host": "",
+        "dialect": "postgres"
+      }
   },
-  "production": {
-    "username": "",
-    "password": "",
-    "database": "",
-    "host": "",
-    "dialect": "postgres"
-  }
+  "jwtSecret": ""
 }

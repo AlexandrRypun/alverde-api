@@ -30,5 +30,9 @@ router.route('/orders/validate')
 router.route('/users')
     .get(controllers.user.list.bind(controllers.user))
     .post(controllers.user.create.bind(controllers.user));
+router.route('/users/validate')
+    .post(controllers.user.validate.bind(controllers.user));
+router.route('/login')
+    .post(controllers.user.login.bind(controllers.user));
 
 module.exports = router;

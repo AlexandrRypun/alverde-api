@@ -3,6 +3,6 @@ module.exports = (req, res, next) => {
         next();
     } else {
         res.status(403);
-        throw new Error("Access denied");
+        next(new Error("Access denied"));
     }
 };

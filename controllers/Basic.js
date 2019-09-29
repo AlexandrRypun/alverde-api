@@ -50,7 +50,7 @@ class BasicController {
 
     async create(req, res) {
         try {
-            const data = await this.serializer.deserialize(req.body);
+            const data = this.serializer ? await this.serializer.deserialize(req.body) : req.body;
             const validationErrors = await this.getValidationErrors(data);
             if (validationErrors.length > 0) {
                 return res.status(422).json({errors: validationErrors});
@@ -155,7 +155,10 @@ class BasicController {
 
     generateParams(req) {
         const params = { where: {}, order: this.order };
-        const query = req.query;
+        const query = { ...req.query, ...req.body };
+        if (query.attributes !== undefined) {
+            params.attributes = Array.isArray(query.attributes) ? query.attributes : String(query.attributes).split(',');
+        }
         params.include = query.include || [];
         Object.keys(query).forEach(param => {
             if (param === 'page') {
