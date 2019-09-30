@@ -2,3 +2,4 @@
 /.idea/
 /public/*
 /config/config.json
+/config/db.json

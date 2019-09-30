@@ -109,6 +109,7 @@ class BasicController {
                 res.status(200).json({});
             }
         } catch (error) {
+            console.error(error);
             res.status(400).json(error);
         }
     }
@@ -136,10 +137,8 @@ class BasicController {
                 if (error instanceof ValidationError) {
                     error.errors.forEach(e => {
                         if (validatedAttributes[record.constructor.name][e.path] !== undefined) {
-                            e.message = `${this.model.name}.${e.path}.${e.validatorKey}`;
-                            e.model = this.model.name;
                             validationErrors.push({
-                                detail: `${this.model.name}.${e.path}.${e.validatorKey}`,
+                                detail: `${record.constructor.name}.${e.path}.${e.validatorKey}`,
                                 source: {
                                     pointer: `data/attributes/${e.path}`
                                 }
